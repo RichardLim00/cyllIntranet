@@ -1,0 +1,70 @@
+<div class="container my-5">
+    <div class="card m-auto">
+        <h3 class="card-title text-center mt-3">Cyll Member Signup</h3>
+        <div class="card-body">
+            <form action="/signup" method="POST">
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        id="email" 
+                        name="email"
+                        placeholder="johndoe@email.com"
+                        autocomplete="off"
+                        value= "<% typeof email !== 'undefined' ? email : ''  %> "
+                        required
+                    >
+                </div>
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="username" 
+                        name="username"
+                        placeholder="johnthedrone"
+                        autocomplete="off"
+                        value= "<% typeof username !== 'undefined' ? username : ''  %> "
+                        required
+                    >
+                    <small class="form-text text-muted text-right">Make it Unique!</small>
+                </div>
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        class="form-control" 
+                        id="password" 
+                        name="password"
+                        autocomplete="off"
+                        required
+                    >
+                    <small class="form-text text-muted text-right">Make it Secure!</small>
+                </div>
+                <!-- Password Confirm -->
+                <div class="form-group">
+                    <label for="password2">Password</label>
+                    <input 
+                        type="password" 
+                        class="form-control" 
+                        id="password2" 
+                        name="password2"
+                        autocomplete="off"
+                        required
+                    >
+                    <small class="form-text text-muted text-right">Make it Correct!</small>
+                </div>
+                <!-- Messages -->
+                <%- include('./partials/messages') %> 
+                <!-- Submit Button -->
+                <div class="card-body text-center">
+                    <button class="btn btn-secondary">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="card-body">
+    <!-- errors messages -->
+    <% if (typeof errors !== 'undefined') { %>
+        <% if (typeof errors === 'object') { %>
+            <% errors.forEach(error => { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <% if (typeof error === 'object') { %>
+                        <span><%= error.msg %></span>
+                    <% } else { %>
+                        <span><%= error %></span>
+                    <% } %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+            <% }) %>
+        <% } else if(typeof errors === 'string') { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span><%= errors %></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    &times;
+                </button>
+            </div>
+        <% } %>
+    <% } %>
+
+    <!-- success messages -->
+    <% if (typeof success !== 'undefined') { %>
+        <% if (typeof success === 'array') { %>
+            <% success.forEach(message => { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <% if (typeof message === 'object') { %>
+                        <span><%= message.msg %></span>
+                    <% } else { %>
+                        <span><%= message %></span>
+                    <% } %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <% if (success != '') { %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <span><%= success %></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+            <% } %>
+        <% } %>
+    <% } %>
+
+    <% if (error != '') { %>
+        <div class="alert alert-warning alert-dismissible fade show">
+            <span><%= error %> </span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="ture">&times;</span>
+            </button>
+        </div>
+    <% } %>
+</div>

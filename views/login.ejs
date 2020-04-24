@@ -1,0 +1,40 @@
+<div class="container my-5">
+    <div class="card m-auto">
+        <h3 class="card-title text-center mt-3">Cyll Web Login</h3>
+        <div class="card-body">
+            <form action="/login" method="POST">
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        id="email" 
+                        name="email"
+                        placeholder="johndoe@email.com"
+                        autocomplete="off"
+                        required
+                    >
+                </div>
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        class="form-control" 
+                        id="password" 
+                        name="password"
+                        autocomplete="off"
+                        required
+                    >
+                </div>
+                <!-- Messages -->
+                <%- include('./partials/messages') %> 
+                <!-- Submit Button -->
+                <div class="card-body text-center">
+                    <button class="btn btn-secondary">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

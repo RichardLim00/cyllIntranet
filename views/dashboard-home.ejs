@@ -1,0 +1,8 @@
+<div class="container">
+    <%- include('./partials/postbox') %> 
+    <% if (typeof posts !== 'undefined') { %>
+        <% posts.forEach(post => { %>
+            <%- include('./partials/post', { post: post })%>
+        <% }) %>
+    <% } %>
+</div>
