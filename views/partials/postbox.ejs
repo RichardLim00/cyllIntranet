@@ -1,10 +1,10 @@
 <div class="row text-right">
     <div class="card mt-5 mx-auto bg-warning col-md-10 col-10">
-        <div class="card-body pb-2">
+        <div class="card-body py-2">
             <form>
-                <div class="row justify-content-between">
+                <div class="row">
                     <!-- Title -->
-                    <div class="col-3">
+                    <div class="col-12 col-md-5 mb-1">
                         <input 
                             class="form-control"
                             type="text" 
@@ -14,9 +14,10 @@
                             autocomplete="off"
                         >
                     </div>
-                        
+                </div>
+                <div class="row justify-content-between row-cols-1 row-sm-cols-2">
                     <!-- Content -->
-                    <div class="col-9">
+                    <div class="col-12 col-md-9">
                         <input 
                             class="form-control"
                             type="text" 
@@ -26,14 +27,16 @@
                             autocomplete="off"
                         >
                     </div>
+                    <div class="col col-md-3 py-1 py-sm-0">
+                        <button 
+                        type="submit"
+                        class="btn btn-outline-primary col-md-9 col"
+                        id="newPostSubmit"
+                        >
+                        Post
+                        </button>
+                    </div>
                 </div>
-                <button 
-                    type="submit"
-                    class="btn btn-outline-primary mt-2"
-                    id="newPostSubmit"
-                    >
-                    Post
-                </button>
             </form>
         </div>
     </div>

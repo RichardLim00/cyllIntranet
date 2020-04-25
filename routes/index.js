@@ -51,7 +51,6 @@ router.post('/signup', async (req, res) => {
     } = req.body;
 
     const errors = await validateSignUpForm(email, username, password, password2);
-    console.log(typeof errors)
     if (errors.length > 0) {                  // Form is not correct
         res.render('signup', { errors })
     } else {                                  // Form is correct

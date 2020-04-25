@@ -8,8 +8,6 @@ router.get('/home', async (req, res, next) => {
     const posts = await Post.find({}).sort({ postOn: 'asc' }).limit(30)
                         .populate('author').exec()
 
-    console.log(posts);
-
     res.render('dashboard-home', { posts });
 })
 
