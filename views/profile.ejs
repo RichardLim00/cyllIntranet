@@ -1,10 +1,43 @@
 <div class="container">
     <div class="card mt-3">
         <div class="card-title text-center mt-3">
-            <h3>Profile</h3>
+            <h3>Profile of <u><%= user.username %></u></h3>
         </div>
+        <hr class="mt-0">
         <div class="card-body text-center">
-            <p>Name: <%= username %></p>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th scope="row">Email: </th>
+                        <td><%= user.email %></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Bio: </th>                        
+                        <td><%= user.biography %></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Friends: </th>
+                        <td>
+                            <% if(user.friends.length > 0){ %>
+                                foreach(let friend of friends){
+                                <% user.friends.forEach(friend => { %>
+                                    <span><%= friend %></span>
+                                <% }) %>
+                            <% } else { %>
+                                <span>No Friends...</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Cards Posted: </th>
+                        <td><%= user.blogsCreated %> </td>
+                    </tr>
+                    <tr>
+                        <th>Joined On: </th>
+                        <td><%= user.createdOn.toLocaleDateString() %> </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

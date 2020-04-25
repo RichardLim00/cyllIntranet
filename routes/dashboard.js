@@ -20,7 +20,7 @@ router.get('/logout', (req, res, next) => {
 })
 
 router.get('/profile', (req, res, next) => {
-    res.render('profile', { username: req.user.username });
+    res.render('profile', { user: req.user});
 })
 
 router.post('/createPost', upload.none(), async (req, res, next) => {
