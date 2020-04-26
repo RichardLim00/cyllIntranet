@@ -1,47 +1,49 @@
+<script src="/javascripts/profileManipulation.js"></script>
 <div class="container">
-    <div class="card mt-3">
-        <div class="card-title text-center mt-3">
-            <h3>Profile of <u><%= user.username %></u></h3>
+    <div class="row">
+        <div class="card col mt-3 mx-auto">
+            <div class="card-title text-center mt-3">
+                <h3>Profile of <u><%= user.username %></u></h3>
+            </div>
+            <hr class="mt-0">
+            <div class="card-body text-center pb-0">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Email: </th>
+                            <td>
+                                <a class="text-warning" href="mailto:<%= user.email %>">
+                                    <%= user.email %>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Bio: </th>                        
+                            <td><%= user.biography %></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Friends: </th>
+                            <td><%= user.friends.length %></td>
+                        </tr>
+                        <tr>
+                            <th>Cards Posted: </th>
+                            <td><%= user.blogsCreated %> </td>
+                        </tr>
+                        <tr>
+                            <th>Joined On: </th>
+                            <td><%= user.createdOn.toLocaleDateString() %> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <hr class="mt-0">
-        <div class="card-body text-center">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th scope="row">Email: </th>
-                        <td>
-                            <a class="text-warning" href="mailto:<%= user.email %>">
-                                <%= user.email %>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Bio: </th>                        
-                        <td><%= user.biography %></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Friends: </th>
-                        <td>
-                            <% if(user.friends.length > 0){ %>
-                                foreach(let friend of friends){
-                                <% user.friends.forEach(friend => { %>
-                                    <span><%= friend %></span>
-                                <% }) %>
-                            <% } else { %>
-                                <span>No Friends...</span>
-                            <% } %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Cards Posted: </th>
-                        <td><%= user.blogsCreated %> </td>
-                    </tr>
-                    <tr>
-                        <th>Joined On: </th>
-                        <td><%= user.createdOn.toLocaleDateString() %> </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    </div>  
+    <div class="row mt-2 justify-content-end">
+        <button class="btn btn-info mr-2" id="profileEditButton">
+            Edit <i class="far fa-edit"></i>
+        </button>
+        <button class="btn btn-danger" id="profileDeleteButton">
+            Delete <i class="far fa-trash-alt"></i>
+        </button>
     </div>
 </div>
