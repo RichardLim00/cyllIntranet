@@ -9,7 +9,11 @@
                 <tbody>
                     <tr>
                         <th scope="row">Email: </th>
-                        <td><%= user.email %></td>
+                        <td>
+                            <a class="text-warning" href="mailto:<%= user.email %>">
+                                <%= user.email %>
+                            </a>
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">Bio: </th>                        
