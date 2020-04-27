@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const upload = multer();
 const Post = require('../models/Post');
+const User = require('../models/User');
 
 router.get('/home', async (req, res, next) => {
     const posts = await Post.find({}).sort({ postOn: 'asc' }).limit(30)
@@ -21,8 +22,34 @@ router.get('/profile', (req, res, next) => {
     res.render('profile', { user: req.user});
 })
 
+router.post('/profile/update', upload.none(), async (req, res, next) => {
+    const { bio : newBio } = req.body;
+    
+    // Validation
+    if(newBio.trim() === ''){
+        res.status(406);
+        res.send();
+        return;
+    }
+
+    // Update User Profile
+    try {
+        await User.findByIdAndUpdate(req.user._id, {
+            biography: newBio
+        }, {
+            useFindAndModify: false
+        })
+
+        res.status(200);
+        res.send();
+    } catch (error) {
+        console.log(error);
+        res.status(500);
+        res.send();
+    }
+})
+
 router.post('/createPost', upload.none(), async (req, res, next) => {
-    console.log(req.user);
     try {
         const newPost = new Post({
             title: req.body.title,

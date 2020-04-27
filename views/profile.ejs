@@ -1,4 +1,4 @@
-<script src="/javascripts/profileManipulation.js"></script>
+<script defer src="/javascripts/profileManipulation.js"></script>
 <div class="container">
     <div class="row">
         <div class="card col mt-3 mx-auto">
@@ -19,7 +19,11 @@
                         </tr>
                         <tr>
                             <th scope="row">Bio: </th>                        
-                            <td><%= user.biography %></td>
+                            <td>
+                                <span id="profileBiography">
+                                    <%= user.biography %>
+                                </span>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">Friends: </th>
@@ -38,12 +42,38 @@
             </div>
         </div>
     </div>  
-    <div class="row mt-2 justify-content-end">
-        <button class="btn btn-info mr-2" id="profileEditButton">
-            Edit <i class="far fa-edit"></i>
-        </button>
-        <button class="btn btn-danger" id="profileDeleteButton">
-            Delete <i class="far fa-trash-alt"></i>
-        </button>
+    <div class="row mt-2 justify-content-end" id="manipulationPanel">
+        <div class="col">
+            <button class="col btn btn-info" id="profileEditButton">
+                Edit <i class="far fa-edit"></i>
+            </button>
+        </div>
+        <div class="col">
+            <button class="col btn btn-danger" data-toggle="modal" data-target="#deleteConfirmModal">
+                Delete <i class="far fa-trash-alt"></i>
+            </button>
+        </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-danger">
+          <h5 class="modal-title" id="exampleModalLabel">Confirm Delete Account?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <h4>
+                You are proceeding to delete you Cyll Account, confirm?
+            </h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" id="profileDeleteButton">Delete</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Nope</button>
+        </div>
+      </div>
+    </div>
+  </div>
