@@ -73,7 +73,10 @@ router.post('/createPost', upload.none(), async (req, res, next) => {
             author: req.user._id
         })
 
+        const newBlogsCreated = req.user.blogsCreated + 1;
+        
         await newPost.save();
+        await User.findByIdAndUpdate(req.user._id, {blogsCreated: newBlogsCreated})
     } catch (err) {
         console.log(err)
     }
