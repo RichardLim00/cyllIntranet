@@ -49,6 +49,22 @@ router.post('/profile/update', upload.none(), async (req, res, next) => {
     }
 })
 
+router.post('/profile/delete', async (req, res, next) => {
+    const { _id: userID } = req.user;
+
+    console.log(userID);
+
+    try {
+        await User.findByIdAndDelete(userID);
+
+        res.status = 200;
+        res.send();
+    } catch (err) {
+        res.status = 500;
+        res.send();
+    }
+})
+
 router.post('/createPost', upload.none(), async (req, res, next) => {
     try {
         const newPost = new Post({

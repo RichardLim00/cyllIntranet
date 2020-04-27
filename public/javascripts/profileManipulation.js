@@ -20,9 +20,18 @@ editButton.addEventListener('click', (e) => {
     biographyElement.replaceWith(biographyInput);
 })
 
-deleteButton.addEventListener('click' ,(e) => {
-    // TODO:
-    //  1. Delete Account Feature!
+deleteButton.addEventListener ('click' , async (e) => {
+    await fetch ('/dashboard/profile/delete', { method: 'POST' })
+        .then ((response) => {
+            console.log(response)
+            if(response.status == 200){
+                window.location.href = '/'
+            } else if(response.status == 500) {
+                // May be optimized to use a modal instead.
+                alert('Account Delete Failed');
+            }
+        })
+
 })
 
 
