@@ -32,6 +32,8 @@
     "passport-local": "^1.0.0"
   },
   "nodemonConfig": {
-    "ignore" : ["public/javascripts/*"]
+    "ignore": [
+      "public/javascripts/*"
+    ]
   }
 }
