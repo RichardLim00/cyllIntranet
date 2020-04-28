@@ -1,4 +1,4 @@
-
+import generatePost from './utility/generatePost.js';
 const submitButton = document.getElementById('newPostSubmit');
 
 submitButton.addEventListener('click', (e) => {
@@ -14,21 +14,35 @@ submitButton.addEventListener('click', (e) => {
 })
 
 function submitPost (post) {
-    // eslint-disable-next-line no-undef
-    const ajax = new XMLHttpRequest();
-
-    ajax.onreadystatechange = function () {
-        if (this.readyState === 2 && this.status === 200) {
-            console.log('Post Submitted!')
-        }
-    }
-
-    // eslint-disable-next-line no-undef
     const postFormData = new FormData();
 
     postFormData.append('title', post.title);
     postFormData.append('content', post.content);
 
-    ajax.open('POST', '/dashboard/createPost');
-    ajax.send(postFormData);
+    fetch('/dashboard/createPost', {method: 'POST', body: postFormData})
+        .then((response) => {
+            if(response.status == 200){
+                reloadPostBasket();
+            } else if(response.status == 400) {
+                alert('Post Failed..., Please Refresh and Retry')
+            }
+        })
+}
+
+function reloadPostBasket(){
+    fetch('/dashboard/loadPosts', {method: 'GET'})
+        .then((response) => {
+            response.json()
+                .then(posts => {
+                    const postBasket = document.getElementById('postBasket')
+                    postBasket.innerHTML = '';
+
+                    posts.reverse().forEach((post) => {
+                        postBasket.appendChild(generatePost(post));
+                    })
+
+                    document.getElementById('newPostTitle').value = '';
+                    document.getElementById('newPostContent').value = '';
+                })
+        })
 }

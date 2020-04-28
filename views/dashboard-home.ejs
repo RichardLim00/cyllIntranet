@@ -1,8 +1,8 @@
+<script defer type="module" src="/javascripts/loadPosts.js"></script>
 <div class="container">
     <%- include('./partials/postbox') %> 
-    <% if (typeof posts !== 'undefined') { %>
-        <% posts.forEach(post => { %>
-            <%- include('./partials/post', { post: post })%>
-        <% }) %>
-    <% } %>
+    <div id="postBasket">
+        <p class="text-muted text-center mt-5" id="load-indicator">Please Wait...</p>
+        
+    </div>
 </div>
