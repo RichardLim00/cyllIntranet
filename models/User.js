@@ -26,7 +26,11 @@ const UserSchema = mongoose.Schema({
         default: 0
     },
     friends: {
-        type: Array
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }],
+        default: []
     }
 })
 

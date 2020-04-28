@@ -10,17 +10,17 @@ const PostSchema = mongoose.Schema({
     },
     likers: {
         type: [{
-            id: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }],
-        default: undefined
+        default: []
     },
     haters: {
         type: [{
-            id: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }],
-        default: undefined
+        default: []
     },
     postOn: {
         type: Date,
