@@ -27,20 +27,26 @@ export default function generatePost(postObject){
     cardTitle.appendChild(cardTitleText);
     cardTitleText.innerHTML = postObject.title
     cardTitle.appendChild(cardTitleDate);
+
     card.appendChild(cardBody);                         // Card Body
     cardBody.appendChild(cardBodyContent);
     cardBodyContent.innerHTML = postObject.content;
+
     card.appendChild(separator);                        // Separator
-    card.appendChild(likeHatePanel);                    // Like Hate Separator
+
+    card.appendChild(likeHatePanel);                    // Like Hate Panel
     likeHatePanel.appendChild(buttonsWrap);
+
     buttonsWrap.appendChild(likeButton);                // Like Button
     likeButton.appendChild(likeButtonText);
-    likeButtonText.innerHTML = `${postObject.likers} Love It!`;
+    likeButtonText.innerHTML = `${postObject.likers} Love It! `;
     likeButton.appendChild(likeButtonIcon);
+
     buttonsWrap.appendChild(hateButton);                // Hate Button
     hateButton.appendChild(hateButtonText);
-    hateButtonText.innerHTML = `${postObject.haters} Love It!`;
+    hateButtonText.innerHTML = `${postObject.haters} Love It! `;
     hateButton.appendChild(hateButtonIcon);
+
     likeHatePanel.appendChild(authorWrapper);           // Author
     authorWrapper.appendChild(authorText);
     authorText.appendChild(authorProfileLink);

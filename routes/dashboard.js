@@ -65,6 +65,49 @@ router.post('/profile/delete', async (req, res) => {
     }
 })
 
+router.get('/profile/user/:id', async (req, res) => {
+    if(String(req.user._id) === req.params.id){
+        res.redirect('/dashboard/profile');
+    } else {
+        try {
+            const user = await User.findById(req.params.id);
+            let isFriend = false;
+
+            if(!user){
+                res.status(400).end();
+            } else {
+                isFriend = req.user.friends.includes(user._id);
+            }
+
+
+            res.render('profile', {user: user, otherUser: true, isFriend: isFriend});
+            res.status(200).end();
+        } catch (err) {
+            console.log(err);
+            res.status(400).end();
+        }
+    }
+})
+
+router.post('/profile/user/add/:id' , async (req, res) => {
+    try {
+        let friend = await User.findById(req.params.id);
+
+        console.log("Test: " + req.user.friends.includes(friend._id))
+        if(friend){
+            if(!req.user.friends.includes(friend._id)){
+                await User.findByIdAndUpdate(req.user._id, {$push: {friends: friend._id}})
+                await User.findByIdAndUpdate(friend._id, {$push: {friends: req.user._id}})
+            }
+        }
+
+        res.status(200).end();
+    } catch (error) {
+        console.log(error);
+        res.status(400).end();
+    }
+})
+
 router.post('/createPost', upload.none(), async (req, res) => {
     try {
         const newPost = new Post({
