@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const upload = multer();
+const sanitizer = require('sanitizer');
 const Post = require('../models/Post');
 const User = require('../models/User');
 
@@ -18,8 +19,11 @@ router.get('/logout', (req, res) => {
     res.redirect('/login');
 })
 
-router.get('/profile', (req, res) => {
-    res.render('profile', { user: req.user});
+router.get('/profile', async (req, res) => {
+
+    const user = await User.findById(req.user.id).populate('friends');
+
+    res.render('profile', { user: user });
 })
 
 router.post('/profile/update', upload.none(), async (req, res) => {
@@ -70,7 +74,7 @@ router.get('/profile/user/:id', async (req, res) => {
         res.redirect('/dashboard/profile');
     } else {
         try {
-            const user = await User.findById(req.params.id);
+            const user = await User.findById(req.params.id).populate('friends');
             let isFriend = false;
 
             if(!user){
@@ -93,7 +97,6 @@ router.post('/profile/user/add/:id' , async (req, res) => {
     try {
         let friend = await User.findById(req.params.id);
 
-        console.log("Test: " + req.user.friends.includes(friend._id))
         if(friend){
             if(!req.user.friends.includes(friend._id)){
                 await User.findByIdAndUpdate(req.user._id, {$push: {friends: friend._id}})
@@ -134,7 +137,7 @@ router.get('/loadPosts', async (req, res) => {
         const posts = await Post.find({}).sort({ postOn: 'asc' }).limit(30)
                         .populate('author').exec();
 
-        const filteredPosts = filterPostsDetail(posts);                        
+        const filteredPosts = filterPostsDetail(posts, req);                        
         
         res.send(filteredPosts);
     } catch (error) {
@@ -144,9 +147,59 @@ router.get('/loadPosts', async (req, res) => {
     }
 })
 
+router.post('/likePost/:postID' , async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.postID);
+
+        if (!post) {
+            res.status(400).end();
+        }
+
+        if (post.haters.includes(req.user._id)) {
+            await post.updateOne({$pull: {haters: req.user._id}})
+        }
+
+        if(!post.likers.includes(req.user._id)) {
+            await post.updateOne({$push: {likers: req.user._id}})
+        } else {
+            await post.updateOne({$pull: {likers: req.user._id}})
+        }
+
+        res.status(200);
+    } catch (err) {
+        console.log(err);
+        res.status(400);
+    }
+})
+
+router.post('/hatePost/:postID' , async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.postID);
+
+        if (!post) {
+            res.status(400).end();
+        }
+
+        if (post.likers.includes(req.user._id)) {
+            await post.updateOne({$pull: {likers: req.user._id}})
+        }
+
+        if(!post.haters.includes(req.user._id)) {
+            await post.updateOne({$push: {haters: req.user._id}})
+        } else {
+            await post.updateOne({$pull: {haters: req.user._id}})
+        }
+
+        res.status(200);
+    } catch (err) {
+        console.log(err);
+        res.status(400);
+    }
+})
+
 module.exports = router;
 
-function filterPostsDetail(rawPosts){
+function filterPostsDetail(rawPosts, req){
     const filteredPosts = rawPosts.map((post) => {
         let filteredPost = {}
 
@@ -154,11 +207,13 @@ function filterPostsDetail(rawPosts){
         filteredPost.author = {};
         filteredPost.author.id = post.author._id;
         filteredPost.author.username = post.author.username;
-        filteredPost.content = post.content;
+        filteredPost.content = sanitizer.escape(post.content);
         filteredPost.likers = post.likers.length;
         filteredPost.haters = post.haters.length;
         filteredPost.postOn = post.postOn;
-        filteredPost.title = post.title;
+        filteredPost.title = sanitizer.escape(post.title);
+        filteredPost.userLike = post.likers.includes(req.user._id);
+        filteredPost.userHate = post.haters.includes(req.user._id);
 
         return filteredPost;
     })

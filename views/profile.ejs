@@ -14,8 +14,7 @@
             <div class="card-title text-center mt-3">
                 <h3>Profile of <u><%= user.username %></u></h3>
             </div>
-            <hr class="mt-0">
-            <div class="card-body text-center pb-0">
+            <div class="card-body pb-0">
                 <table class="table">
                     <tbody>
                         <tr>
@@ -73,6 +72,38 @@
                 </div>
             </div>
         <% } %>
+    <% } %>
+
+    <% if (user.friends.length > 0) { %>
+        <div class="row mt-5">
+            <div class="card col">
+                <div class="card-title mt-3 text-center">
+                    <h3>Friends List</h3>
+                </div>
+                <div class="card-body pb-0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <% user.friends.forEach(friend => { %>
+                                    <td><%= friend.username %></td>
+                                    <td>
+                                        <a class="text-warning" href="mailto:<%= friend.email %>">
+                                            <%= friend.email %>
+                                        </a>
+                                    </td>
+                                <% }) %>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     <% } %>
 </div>
 

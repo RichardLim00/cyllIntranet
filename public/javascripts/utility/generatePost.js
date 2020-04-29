@@ -38,13 +38,17 @@ export default function generatePost(postObject){
     likeHatePanel.appendChild(buttonsWrap);
 
     buttonsWrap.appendChild(likeButton);                // Like Button
+    likeButton.id = `like:${postObject.id}`
+    likeButton.addEventListener('click', likeHateClick);
     likeButton.appendChild(likeButtonText);
     likeButtonText.innerHTML = `${postObject.likers} Love It! `;
     likeButton.appendChild(likeButtonIcon);
 
     buttonsWrap.appendChild(hateButton);                // Hate Button
+    hateButton.id = `hate:${postObject.id}`
+    hateButton.addEventListener('click', likeHateClick);
     hateButton.appendChild(hateButtonText);
-    hateButtonText.innerHTML = `${postObject.haters} Love It! `;
+    hateButtonText.innerHTML = `${postObject.haters} Hate It! `;
     hateButton.appendChild(hateButtonIcon);
 
     likeHatePanel.appendChild(authorWrapper);           // Author
@@ -52,6 +56,15 @@ export default function generatePost(postObject){
     authorText.appendChild(authorProfileLink);
     authorProfileLink.setAttribute('href', `/dashboard/profile/user/${postObject.author.id}`);
     authorProfileLink.innerHTML = postObject.author.username;
+
+    // Like Hate Button Appearance Logic
+    if (postObject.userLike) {
+        likeButton.className = 'btn btn-success mb-2 mr-2';
+    }
+
+    if(postObject.userHate) {
+        hateButton.className = 'btn btn-danger mb-2'
+    }
 
     return rowWrap;
 }
@@ -63,4 +76,41 @@ function generateElement(tag, className) {
     }
 
     return element;
+}
+
+function likeHateClick() {
+    const action = this.id.split(':');
+    const partnerAction = (action[0] == 'like' ? 'hate' : 'like');
+    const partnerButton = document.getElementById(`${partnerAction}:${action[1]}`);
+    const isSelected = !this.className.includes('outline');
+    const ownNumber = Number(this.innerHTML.match(/\d/)[0]);
+    const partnerNumber = Number(partnerButton.innerHTML.match(/\d/)[0]);
+    let route = '';
+
+    if(action[0] === 'like') {
+        route = 'likePost'
+    } else if(action[0] === 'hate') {
+        route = 'hatePost'
+    }
+
+    const partnerType = partnerButton.className.match(/(danger|success)/)[0];
+    if(!isSelected){
+        this.innerHTML = this.innerHTML.replace(/\d/, ownNumber + 1);
+        if(partnerNumber != 0) {
+            partnerButton.innerHTML = partnerButton.innerHTML.replace(/\d/, partnerNumber - 1)
+        }
+
+        this.className = this.className.replace('-outline', '');
+        partnerButton.className = partnerButton.className.replace(/btn-(danger|success)|btn-outline-(danger|success)/, `btn-outline-${partnerType}`)
+    } else {
+        if(partnerType != 'danger'){
+            this.className = this.className.replace(/btn-danger/, 'btn-outline-danger');
+        } else {
+            this.className = this.className.replace(/btn-success/, 'btn-outline-success');
+        }
+
+        this.innerHTML = this.innerHTML.replace(/\d/, ownNumber - 1);
+    }
+
+    fetch(`/dashboard/${route}/${action[1]}`, {method: 'POST'})
 }

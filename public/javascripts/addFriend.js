@@ -1,6 +1,6 @@
 const addFriendButton = document.getElementById('addFriendButton');
 
-addFriendButton.addEventListener('click', (e) => {
+addFriendButton.addEventListener('click', () => {
     const friendId = document.location.href.split('/').pop();
 
     fetch(`/dashboard/profile/user/add/${friendId}`, {method:'POST'})
