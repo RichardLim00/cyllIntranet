@@ -4,11 +4,10 @@ const ejsLayout = require('express-ejs-layouts');
 const flash = require('connect-flash');
 const session = require('express-session')
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const passport = require('passport');
 const { ensureAuthenticated } = require('./configs/auth');
 require('./configs/passport')(passport);
-
+let dotenv = require('dotenv');
 const PORT = process.env.PORT || 3000;
 
 // Dotenv Grab
