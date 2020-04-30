@@ -91,7 +91,11 @@
                         <tbody>
                             <tr>
                                 <% user.friends.forEach(friend => { %>
-                                    <td><%= friend.username %></td>
+                                    <td>
+                                        <a href="/dashboard/profile/user/<%= friend._id %>">
+                                            <%= friend.username %>
+                                        </a>
+                                    </td>
                                     <td>
                                         <a class="text-warning" href="mailto:<%= friend.email %>">
                                             <%= friend.email %>
