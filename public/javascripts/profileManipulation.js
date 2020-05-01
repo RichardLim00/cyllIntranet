@@ -3,7 +3,7 @@ let editButton = document.getElementById('profileEditButton');
 let deleteButton = document.getElementById('profileDeleteButton');
 const biographyElement = document.getElementById('profileBiography');
 
-editButton.addEventListener('click', (e) => {
+editButton.addEventListener('click', () => {
 
     // Generate Confirm Button
     const confirmEditCol = generateConfirmCol();
@@ -15,12 +15,12 @@ editButton.addEventListener('click', (e) => {
     // Turns attributes value into inputs
     const biographyInput = document.createElement('textarea');
     biographyInput.id = 'biographyInput';
-    biographyInput.value = biographyElement.innerHTML.trim();
+    biographyInput.innerHTML = biographyElement.innerHTML.trim();
     biographyInput.className = 'form-control'
     biographyElement.replaceWith(biographyInput);
 })
 
-deleteButton.addEventListener ('click' , async (e) => {
+deleteButton.addEventListener ('click' , async () => {
     await fetch ('/dashboard/profile/delete', { method: 'POST' })
         .then ((response) => {
             console.log(response)
@@ -70,7 +70,6 @@ async function saveBiography() {
     // Submit New Profile to Server
     const newProfileAttribute = new FormData();
     newProfileAttribute.append('bio', newBioContent);
-    let responseStatus;
 
     await fetch('/dashboard/profile/update', {
         method: 'POST',
@@ -84,17 +83,7 @@ async function saveBiography() {
             alert('Something is wrong with the Server... Try again...')
         }
 
-        responseStatus = response.status;
     })
 
-    // Revert Input into elements
-    if(responseStatus == 200){
-        biographyElement.innerHTML = newBioContent;
-    }
-
-    biographyInput.replaceWith(biographyElement);
-
-    // Revert Manipulation Panel
-    editButton.removeAttribute('disabled')
-    document.getElementById('confirmButtonWrapper').remove();
+    window.location.reload();
 }

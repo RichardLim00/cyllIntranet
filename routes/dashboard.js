@@ -22,7 +22,6 @@ router.get('/logout', (req, res) => {
 router.get('/profile', async (req, res) => {
 
     const user = await User.findById(req.user.id).populate('friends');
-    user.biography = sanitizer.escape(user.biography)
 
     res.render('profile', { user: user });
 })
